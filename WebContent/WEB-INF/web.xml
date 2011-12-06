@@ -10,15 +10,7 @@
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
-	<servlet>
-		<servlet-name>InsertSomeProductServlet</servlet-name>
-		<servlet-class>com.supinfo.supcommerce.servlet.InsertSomeProductServlet</servlet-class>
-	</servlet>
-
-	<servlet-mapping>
-		<servlet-name>InsertSomeProductServlet</servlet-name>
-		<url-pattern>/basicInsert</url-pattern>
-	</servlet-mapping>
+	<!-- SERVLETS -->
 
 	<servlet>
 		<servlet-name>ListProductServlet</servlet-name>
@@ -49,4 +41,28 @@
 		<servlet-name>LoginServlet</servlet-name>
 		<url-pattern>/login</url-pattern>
 	</servlet-mapping>
+
+	<!-- AUTH SERVLET -->
+
+	<servlet>
+		<servlet-name>InsertSomeProductServlet</servlet-name>
+		<servlet-class>com.supinfo.supcommerce.servlet.InsertSomeProductServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>InsertSomeProductServlet</servlet-name>
+		<url-pattern>/auth/basicInsert</url-pattern>
+	</servlet-mapping>
+
+	<!-- FILTERS -->
+
+	<filter>
+		<filter-name>AuthenticateFilter</filter-name>
+		<filter-class>com.supinfo.supcommerce.filter.AuthenticateFilter</filter-class>
+	</filter>
+
+	<filter-mapping>
+		<filter-name>AuthenticateFilter</filter-name>
+		<url-pattern>/auth/*</url-pattern>
+	</filter-mapping>
 </web-app>
