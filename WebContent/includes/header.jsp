@@ -5,7 +5,8 @@
 <h1>SupCommerce</h1>
 
 <p>
-	<a href="<%=request.getContextPath()%>/listProduct">Liste des produits</a> |
+	<a href="<%=request.getContextPath()%>/listProduct">Tous les produits</a> |
+	<a href="<%=request.getContextPath()%>/cheaperProduct">Produits pas chers</a> |
 
 	<c:choose>
 		<c:when test="${not empty username}">
