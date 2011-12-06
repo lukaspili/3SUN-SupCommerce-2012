@@ -2,6 +2,9 @@ package com.supinfo.supcommerce.servlet;
 
 import java.io.IOException;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -11,9 +14,17 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.supinfo.sun.supcommerce.bo.SupProduct;
 import com.supinfo.sun.supcommerce.doa.SupProductDao;
+import com.supinfo.supcommerce.entity.Product;
 
 @WebServlet(urlPatterns = "/auth/addProduct")
 public class AddProductServlet extends HttpServlet {
+
+	private EntityManagerFactory emf;
+
+	@Override
+	public void init() throws ServletException {
+		emf = Persistence.createEntityManagerFactory("PU");
+	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
@@ -41,12 +52,17 @@ public class AddProductServlet extends HttpServlet {
 			RequestDispatcher rd = req.getRequestDispatcher("/auth/addProduct.jsp");
 			rd.forward(req, resp);
 		} else {
-			SupProduct product = new SupProduct();
+
+			Product product = new Product();
 			product.setName(name);
 			product.setContent(content);
 			product.setPrice(price);
 
-			SupProductDao.addProduct(product);
+			EntityManager em = emf.createEntityManager();
+			em.getTransaction().begin();
+			em.persist(product);
+			em.getTransaction().commit();
+			em.close();
 
 			resp.sendRedirect(req.getContextPath() + "/showProduct?id=" + product.getId());
 		}
@@ -57,5 +73,10 @@ public class AddProductServlet extends HttpServlet {
 
 		RequestDispatcher rd = req.getRequestDispatcher("/auth/addProduct.jsp");
 		rd.forward(req, resp);
+	}
+
+	@Override
+	public void destroy() {
+		emf.close();
 	}
 }

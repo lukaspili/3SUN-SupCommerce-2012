@@ -2,39 +2,54 @@ package com.supinfo.supcommerce.servlet;
 
 import java.io.IOException;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.supinfo.sun.supcommerce.doa.SupProductDao;
-import com.supinfo.sun.supcommerce.exception.UnknownProductException;
-
-@WebServlet(urlPatterns="/auth/removeProduct")
+@WebServlet(urlPatterns = "/auth/removeProduct")
 public class RemoveProductServlet extends HttpServlet {
-	
+
+	private EntityManagerFactory emf;
+
+	@Override
+	public void init() throws ServletException {
+		emf = Persistence.createEntityManagerFactory("PU");
+	}
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-	
+
 		String idParam = req.getParameter("id");
 
-		long id = 0;
+		long id;
+
 		try {
 			id = Long.valueOf(idParam);
 		} catch (NumberFormatException e) {
-			resp.sendError(404, "Invalid id : " + id);
+			resp.sendRedirect(req.getContextPath() + "/listProduct");
 			return;
 		}
-		
-		try {
-			SupProductDao.removeProduct(id);
-		} catch (UnknownProductException e) {
-			resp.sendError(404, "Product not found for id : " + id);
-			return;
-		}
-		
-		resp.sendRedirect(req.getContextPath() + "/listProduct.jsp");
+
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		Query query = em.createQuery("DELETE FROM Product WHERE id = :id");
+		query.setParameter("id", id);
+		query.executeUpdate();
+		em.getTransaction().commit();
+		em.close();
+
+		resp.sendRedirect(req.getContextPath() + "/listProduct");
+	}
+
+	@Override
+	public void destroy() {
+		emf.close();
 	}
 
 }

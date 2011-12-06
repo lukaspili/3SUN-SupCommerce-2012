@@ -40,10 +40,10 @@ public class AddCategoryServlet extends HttpServlet {
 		category.setName(name);
 		
 		EntityManager em = emf.createEntityManager();
-		
 		em.getTransaction().begin();
 		em.persist(category);
 		em.getTransaction().commit();
+		em.clear();
 		
 		resp.sendRedirect(req.getContextPath() + "/listProduct");
 	}

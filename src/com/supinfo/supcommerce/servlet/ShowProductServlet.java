@@ -1,7 +1,11 @@
 package com.supinfo.supcommerce.servlet;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -9,40 +13,48 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import com.supinfo.sun.supcommerce.bo.SupProduct;
-import com.supinfo.sun.supcommerce.doa.SupProductDao;
-import com.supinfo.sun.supcommerce.exception.UnknownProductException;
+import com.supinfo.supcommerce.entity.Product;
 
 @WebServlet(urlPatterns = "/showProduct")
 public class ShowProductServlet extends HttpServlet {
 
+	private EntityManagerFactory emf;
+
+	@Override
+	public void init() throws ServletException {
+		emf = Persistence.createEntityManagerFactory("PU");
+	}
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		resp.setContentType("text/html");
-
 		String idParam = req.getParameter("id");
 
-		long id = 0;
+		long id;
+
 		try {
 			id = Long.valueOf(idParam);
 		} catch (NumberFormatException e) {
-			resp.sendError(404, "Invalid id : " + id);
+			resp.sendRedirect(req.getContextPath() + "/listProduct");
 			return;
 		}
 
-		SupProduct product = null;
+		EntityManager em = emf.createEntityManager();
+		Product product = em.find(Product.class, id);
+		em.close();
 
-		try {
-			product = SupProductDao.findProductById(id);
-		} catch (UnknownProductException e) {
-			resp.sendError(404, "Product not found for id : " + id);
+		if (null == product) {
+			resp.sendRedirect(req.getContextPath() + "/listProduct");
 			return;
 		}
 
 		req.setAttribute("product", product);
-
 		RequestDispatcher rd = req.getRequestDispatcher("/showProduct.jsp");
 		rd.forward(req, resp);
+	}
+
+	@Override
+	public void destroy() {
+		emf.close();
 	}
 }
