@@ -9,7 +9,8 @@
 
 	<c:choose>
 		<c:when test="${not empty username}">
-			<a href="<%=request.getContextPath()%>/auth/addProduct.jsp">Nouveau produit</a> |
+			<a href="<%=request.getContextPath()%>/auth/addProduct">Nouveau produit</a> |
+			<a href="<%=request.getContextPath()%>/auth/addCategory">Nouvelle catégorie</a> |
 			<a href="<%=request.getContextPath()%>/logout">Deconnexion</a>
 		</c:when>
 
