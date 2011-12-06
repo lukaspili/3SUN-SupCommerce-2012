@@ -11,6 +11,8 @@
 </head>
 <body>
 
+	<%@ include file="/includes/header.jsp" %>
+
 	<% List<SupProduct> products = SupProductDao.getAllProducts(); %>
 
 	<h2>Liste des produits</h2>
@@ -22,6 +24,8 @@
 		<a href="<%=request.getContextPath()%>/showProduct.jsp?id=<%=p.getId()%>">Voir le produit</a>
 	</p>
 	<% } %>
+	
+	<%@ include file="/includes/footer.jsp" %>
 
 </body>
 </html>

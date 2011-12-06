@@ -1,0 +1,1 @@
+<p style="text-align:center">SupCommerce SUPINFO 2011-2012</p>

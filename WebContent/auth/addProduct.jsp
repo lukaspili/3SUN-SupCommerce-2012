@@ -8,6 +8,8 @@
 </head>
 <body>
 
+	<%@ include file="/includes/header.jsp" %>
+
 	<h2>Nouveau produit</h2>
 
 	<form action="<%= request.getContextPath() %>/auth/addProduct" method="post">
@@ -32,6 +34,8 @@
 		</p>
 
 	</form>
+	
+	<%@ include file="/includes/footer.jsp" %>
 
 </body>
 </html>

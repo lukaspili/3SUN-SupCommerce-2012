@@ -32,6 +32,8 @@
 			return;
 		}
 	%>
+	
+	<%@ include file="/includes/header.jsp" %>
 
 	<h2><%=product.getName()%></h2>
 
@@ -43,6 +45,8 @@
 	<p>Prix : <%=product.getPrice()%> euros</p>
 
 	<p><a href="<%= request.getContextPath() %>/listProduct.jsp">Revenir à la liste des produits</a></p>
+	
+	<%@ include file="/includes/footer.jsp" %>
 	
 </body>
 </html>
