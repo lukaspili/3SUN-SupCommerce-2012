@@ -3,6 +3,9 @@ package com.supinfo.supcommerce.servlet;
 import java.io.IOException;
 import java.io.PrintWriter;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -11,23 +14,47 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.supinfo.sun.supcommerce.bo.SupProduct;
 import com.supinfo.sun.supcommerce.doa.SupProductDao;
+import com.supinfo.supcommerce.entity.Category;
+import com.supinfo.supcommerce.entity.Product;
 
 @WebServlet(urlPatterns = "/auth/basicInsert")
 public class InsertSomeProductServlet extends HttpServlet {
 
+	private EntityManagerFactory emf;
+
+	@Override
+	public void init() throws ServletException {
+		emf = Persistence.createEntityManagerFactory("PU");
+	}
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-		SupProduct product = new SupProduct();
+		Product product = new Product();
 		product.setName("Foo");
 		product.setContent("Bar");
-		product.setPrice(10F);
+		product.setPrice(10);
 
-		SupProductDao.addProduct(product);
+		Category category = new Category();
+		category.setName("Toto");
 
+		product.setCategory(category);
+
+		EntityManager em = emf.createEntityManager();
+		em.getTransaction().begin();
+		em.persist(category);
+		em.persist(product);
+		em.getTransaction().commit();
+		em.close();
+		
 		resp.setContentType("text/html");
 
 		PrintWriter out = resp.getWriter();
 		out.println("<p>Le produit a bien été ajouté</p>");
+	}
+
+	@Override
+	public void destroy() {
+		emf.close();
 	}
 }
