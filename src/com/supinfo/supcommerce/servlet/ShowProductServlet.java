@@ -1,8 +1,8 @@
 package com.supinfo.supcommerce.servlet;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -40,12 +40,9 @@ public class ShowProductServlet extends HttpServlet {
 			return;
 		}
 
-		PrintWriter out = resp.getWriter();
+		req.setAttribute("product", product);
 
-		out.println("<p>");
-		out.println("<strong>" + product.getName() + "</strong><br />");
-		out.println(product.getContent() + "<br />");
-		out.println(product.getPrice());
-		out.println("</p>");
+		RequestDispatcher rd = req.getRequestDispatcher("/showProduct.jsp");
+		rd.forward(req, resp);
 	}
 }

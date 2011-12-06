@@ -1,18 +1,21 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+	pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 
 <h1>SupCommerce</h1>
 
 <p>
-<a href="<%= request.getContextPath() %>/listProduct.jsp">Liste des produits</a> |
+	<a href="<%=request.getContextPath()%>/listProduct">Liste des produits</a> |
 
-<% if(session.getAttribute("username") != null) { %>
+	<c:choose>
+		<c:when test="${not empty username}">
+			<a href="<%=request.getContextPath()%>/auth/addProduct.jsp">Nouveau produit</a> |
+			<a href="<%=request.getContextPath()%>/logout">Deconnexion</a>
+		</c:when>
 
-<a href="<%= request.getContextPath() %>/auth/addProduct.jsp">Nouveau produit</a> |
-<a href="<%= request.getContextPath() %>/logout">Deconnexion</a>
-
-<% } else { %>
-<a href="<%= request.getContextPath() %>/login.html">Connexion</a>
-<% } %>
+		<c:otherwise>
+			<a href="<%=request.getContextPath()%>/login">Connexion</a>
+		</c:otherwise>
+	</c:choose>
 
 </p>

@@ -23,7 +23,7 @@ public class AuthenticateFilter implements Filter {
 		HttpServletResponse httpResp = (HttpServletResponse) resp;
 
 		if (httpReq.getSession().getAttribute("username") == null) {
-			httpResp.sendRedirect(httpReq.getContextPath() + "/login.html");
+			httpResp.sendRedirect(httpReq.getContextPath() + "/login");
 			return;
 		}
 

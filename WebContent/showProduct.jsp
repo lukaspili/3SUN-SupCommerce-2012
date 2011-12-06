@@ -1,9 +1,6 @@
-<%@page
-	import="com.supinfo.sun.supcommerce.exception.UnknownProductException"%>
-<%@page import="com.supinfo.sun.supcommerce.doa.SupProductDao"%>
-<%@page import="com.supinfo.sun.supcommerce.bo.SupProduct"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
+<%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -12,39 +9,25 @@
 </head>
 <body>
 
-	<%
-		String idParam = request.getParameter("id");
+	<%@ include file="/includes/header.jsp"%>
 
-		long id = 0;
-		try {
-			id = Long.valueOf(idParam);
-		} catch (NumberFormatException e) {
-			response.sendError(404, "Invalid id : " +id);
-			return;
-		}
-
-		SupProduct product = null;
-
-		try {
-			product = SupProductDao.findProductById(id);
-		} catch (UnknownProductException e) {
-			response.sendError(404, "Product not found for id : " + id);
-			return;
-		}
-	%>
-	
-	<%@ include file="/includes/header.jsp" %>
-
-	<h2><%=product.getName()%></h2>
+	<h2><c:out value="${product.name}" /></h2>
 
 	<p>
-		<strong>Description :</strong><br />
-		<%=product.getContent()%>
+		Description :<br />
+		<c:out value="${product.content}" />
 	</p>
+	
+	<p>
+		<c:out value="${product.price}" /> euros
 
-	<p>Prix : <%=product.getPrice()%> euros</p>
-
-	<p><a href="<%= request.getContextPath() %>/listProduct.jsp">Revenir à la liste des produits</a></p>
+		<c:if test="${not empty username}">
+			<form method="post" action="<%=request.getContextPath()%>/auth/removeProduct">
+				<input type="hidden" name="id" value="${product.id}" />
+				<input type="submit" value="Supprimer ce produit">
+			</form>
+		</c:if>
+	</p>
 	
 	<%@ include file="/includes/footer.jsp" %>
 	

@@ -2,6 +2,7 @@ package com.supinfo.supcommerce.servlet;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -18,11 +19,19 @@ public class LoginServlet extends HttpServlet {
 		String password = req.getParameter("password");
 
 		if (username == null || !username.equals("foo") || password == null || !password.equals("bar")) {
-			resp.sendRedirect(req.getContextPath() + "/login.html");
-			return;
+			req.setAttribute("errors", true);
+			RequestDispatcher rd = req.getRequestDispatcher("/login.jsp");
+			rd.forward(req, resp);
+		} else {
+			req.getSession().setAttribute("username", username);
+			resp.sendRedirect(req.getContextPath() + "/listProduct");
 		}
+	}
 
-		req.getSession().setAttribute("username", username);
-		resp.sendRedirect(req.getContextPath() + "/listProduct");
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+
+		RequestDispatcher rd = req.getRequestDispatcher("/login.jsp");
+		rd.forward(req, resp);
 	}
 }
