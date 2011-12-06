@@ -19,4 +19,14 @@
 		<servlet-name>InsertSomeProductServlet</servlet-name>
 		<url-pattern>/basicInsert</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ListProductServlet</servlet-name>
+		<servlet-class>com.supinfo.supcommerce.servlet.ListProductServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ListProductServlet</servlet-name>
+		<url-pattern>/listProduct</url-pattern>
+	</servlet-mapping>
 </web-app>
