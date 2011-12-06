@@ -29,4 +29,14 @@
 		<servlet-name>ListProductServlet</servlet-name>
 		<url-pattern>/listProduct</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ShowProductServlet</servlet-name>
+		<servlet-class>com.supinfo.supcommerce.servlet.ShowProductServlet</servlet-class>
+	</servlet>
+
+	<servlet-mapping>
+		<servlet-name>ShowProductServlet</servlet-name>
+		<url-pattern>/showProduct</url-pattern>
+	</servlet-mapping>
 </web-app>

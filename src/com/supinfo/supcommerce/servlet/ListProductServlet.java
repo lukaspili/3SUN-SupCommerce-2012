@@ -5,7 +5,6 @@ import java.io.PrintWriter;
 import java.util.List;
 
 import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -27,7 +26,8 @@ public class ListProductServlet extends HttpServlet {
 		for (SupProduct p : products) {
 			out.println("<p>");
 			out.println("<strong>" + p.getName() + "</strong><br />");
-			out.println(p.getPrice());
+			out.println(p.getPrice() + "<br />");
+			out.println("<a href=\"" + req.getContextPath() + "/showProduct?id=" + p.getId() + "\">Voir en détail</a>");
 			out.println("</p>");
 		}
 	}
