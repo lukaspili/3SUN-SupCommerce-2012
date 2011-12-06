@@ -12,6 +12,10 @@
 	<%@ include file="/includes/header.jsp"%>
 
 	<h2><c:out value="${product.name}" /></h2>
+	
+	<p>
+		Catégorie : <c:out value="${product.category.name}" />
+	</p>
 
 	<p>
 		Description :<br />

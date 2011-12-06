@@ -33,6 +33,15 @@
 			<label for="price">Prix :</label>
 			<input type="text" size="10" name="price" id="price" />
 		</p>
+		
+		<p>
+			<label for="category">Catégorie :</label>
+			<select name="category">
+				<c:forEach items="${categories}" var="c">
+					<option value="${c.id}">${c.name}</option>
+				</c:forEach>
+			</select>
+		</p>
 
 		<p>
 			<input type="submit" value="Ajouter" />
