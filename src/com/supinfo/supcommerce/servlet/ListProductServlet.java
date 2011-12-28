@@ -18,7 +18,7 @@ import com.supinfo.sun.supcommerce.bo.SupProduct;
 import com.supinfo.sun.supcommerce.doa.SupProductDao;
 import com.supinfo.supcommerce.entity.Product;
 
-@WebServlet(urlPatterns = { "/listProduct", "/" })
+@WebServlet(urlPatterns = { "/listProduct" })
 public class ListProductServlet extends HttpServlet {
 
 	private EntityManagerFactory emf;
